@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tonconnect/ui-react": "^2.1.0",
+    "@twa-dev/sdk": "^8.0.2",
     "@vitejs/plugin-basic-ssl": "^2.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
