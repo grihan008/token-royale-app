@@ -19,7 +19,7 @@ function Game() {
   );
 
   const walletAddress = useTonAddress();
-  const [tonConnectUI, setOptions] = useTonConnectUI();
+  const [tonConnectUI] = useTonConnectUI();
 
   const getGameState = async () => {
     const tokenRoyaleInstance = await getTokenRoyaleInstance();

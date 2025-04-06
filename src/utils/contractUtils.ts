@@ -1,15 +1,10 @@
-import {
-  TonConnectUI,
-  useTonConnectUI,
-  useTonWallet,
-} from '@tonconnect/ui-react';
+import { TonConnectUI } from '@tonconnect/ui-react';
 import {
   Address,
   beginCell,
   Sender,
   SenderArguments,
   storeStateInit,
-  toNano,
   TonClient,
 } from '@ton/ton';
 import { TokenRoyale } from '../contract-wrappers/TokenRoyale';
