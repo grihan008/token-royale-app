@@ -10,7 +10,7 @@ import {
 import { TokenRoyale } from '../contract-wrappers/TokenRoyale';
 
 export const CONTRACT_ADDRESS =
-  'EQBtosq1Y3Fpgw6IOCi9wdNQ-J5Zz79pxR7xQ8ETMqmuE9Yj';
+  'EQCdNXEm0xPwbvp8SF7JIljMIvA8lNnMfM_MUUa0cB_2mDUM';
 
 export const getTokenRoyaleInstance = async () => {
   const client = new TonClient({
