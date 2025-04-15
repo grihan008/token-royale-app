@@ -232,7 +232,11 @@ function Game() {
                 </div>
                 <div>
                   <h3>Prize pool</h3>
-                  <h2>{gameState.prizePool} TON</h2>
+                  <h2>~{Number(gameState.prizePool).toFixed(2)}&nbsp;TON</h2>
+                </div>
+                <div>
+                  <h3>Players</h3>
+                  <h2>{gameState.amountOfParticipants}</h2>
                 </div>
               </div>
             )}

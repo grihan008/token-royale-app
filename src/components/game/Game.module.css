@@ -87,6 +87,7 @@ h6 {
 .gameInfo {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   color: white;
   margin-bottom: 2rem;
 
