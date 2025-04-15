@@ -97,9 +97,13 @@ function Game() {
           getGameState();
         }
       } else {
-        // Get winners every 60 seconds on /60 + 3.5 second
-        if (Math.floor(currentTime / 100) % 600 === 35) {
+        // Get winners every 60 seconds on /60 + 4 seconds
+        if (Math.floor(currentTime / 1000) % 60 === 4) {
           getWinners();
+        }
+        // Get game state every 60 seconds on /60 + 7 second
+        if (Math.floor(currentTime / 1000) % 60 === 7) {
+          getGameState();
         }
       }
     }, 1000); // Update every second
@@ -159,7 +163,7 @@ function Game() {
     if (gameHasEnded) {
       return (
         <div className={classes.container}>
-          <h1>The game has ended</h1>
+          <h1>GAME COMPLETED</h1>
           <h2>The winners will be announced soon!</h2>
         </div>
       );
@@ -184,38 +188,54 @@ function Game() {
 
     return (
       <div className={classes.container}>
-        <h1>Game</h1>
         {timeToElimination !== null && (
           <>
             <div className={classes.countdown}>
-              <div>
-                {gameHasStarted ? (
-                  <>
-                    <h2>
-                      Round {upcomingEliminationTimestampIndex} /{' '}
-                      {eliminationTimestamps.length - 1}
-                    </h2>
-                    <h2>Elimination in:</h2>
-                  </>
-                ) : (
-                  <h2>Game starts in:</h2>
-                )}
-                <h3>
-                  {new Date(timeToElimination).toISOString().substr(11, 8)}
-                </h3>
-              </div>
-              <div>
-                {gameHasStarted && (
-                  <>
-                    <h2>Remaining players:</h2>
-                    <h3>
-                      {gameState.amountOfRemainingParticipants} /{' '}
-                      {gameState.amountOfParticipants}
-                    </h3>
-                  </>
-                )}
-              </div>
+              {gameHasStarted ? (
+                <>
+                  <h2>Elimination in</h2>
+                </>
+              ) : (
+                <h2>Game starts in</h2>
+              )}
+              <h1 className={classes.countdownTime}>
+                {new Date(timeToElimination).toISOString().substr(11, 8)}
+              </h1>
             </div>
+
+            {gameHasStarted ? (
+              <div className={classes.ongoingGameInfo}>
+                <div>
+                  <h3>Round</h3>
+                  <h2>
+                    {upcomingEliminationTimestampIndex} /{' '}
+                    {eliminationTimestamps.length - 1}
+                  </h2>
+                </div>
+                <div>
+                  <h3>Players</h3>
+                  <h2>
+                    {gameState.amountOfRemainingParticipants} /{' '}
+                    {gameState.amountOfParticipants}
+                  </h2>
+                </div>
+                <div>
+                  <h3>Prize pool</h3>
+                  <h2>~{Number(gameState.prizePool).toFixed(2)}&nbsp;TON</h2>
+                </div>
+              </div>
+            ) : (
+              <div className={classes.gameInfo}>
+                <div>
+                  <h3>Entry fee</h3>
+                  <h2>{Number(gameState.entryFee) / 1_000_000_000} TON</h2>
+                </div>
+                <div>
+                  <h3>Prize pool</h3>
+                  <h2>{gameState.prizePool} TON</h2>
+                </div>
+              </div>
+            )}
 
             {!lastCheckInTime && !gameHasStarted && (
               <button className={classes.button} onClick={joinTheGame}>
@@ -224,23 +244,23 @@ function Game() {
             )}
 
             {lastCheckInTime && !gameHasStarted && (
-              <>
+              <div className={classes.checkInStatus}>
                 <h3>You have already registered</h3>
                 <p>Get ready for the game to start</p>
-              </>
+              </div>
             )}
 
             {gameHasStarted && isCheckedIn && (
-              <>
+              <div className={classes.checkInStatus}>
                 <h3>You have already checked-in this round</h3>
-              </>
+              </div>
             )}
 
             {gameHasStarted && !gameState.isStillInGame && (
-              <>
+              <div className={classes.checkInStatus}>
                 <h3>You have been eliminated</h3>
                 <p>Better luck next time</p>
-              </>
+              </div>
             )}
 
             {gameHasStarted && gameState.isStillInGame && (
@@ -262,7 +282,7 @@ function Game() {
     return (
       <div className={classes.container}>
         <h1>Winners</h1>
-        <h2>Previous game winners</h2>
+        <h2 className={classes.winnersTableTitle}>Previous game winners</h2>
         {!gameHasEnded && (
           <div className={classes.winnersTable}>
             <div className={classes.winnersTableHeader}>
@@ -271,17 +291,21 @@ function Game() {
             </div>
             {gameWinners.lastGameWinners.keys().map((address, index) => (
               <div key={index} className={classes.winnersTableRow}>
-                <div className={classes.winnersTableCell}>
-                  {address.toRawString()}
+                <div
+                  className={`${classes.winnersTableCell} ${classes.addressCell}`}
+                >
+                  {address.toString()}
                 </div>
                 <div className={classes.winnersTableCell}>
-                  {gameWinners.lastGameWinners.get(address)?.toString()}
+                  {(Number(gameWinners.lastGameWinners.get(address)) ?? 0) /
+                    1_000_000_000}
+                  &nbsp;TON
                 </div>
               </div>
             ))}
           </div>
         )}
-        <h2>All time winners</h2>
+        <h2 className={classes.winnersTableTitle}>All time winners</h2>
         <div className={classes.winnersTable}>
           <div className={classes.winnersTableHeader}>
             <div className={classes.winnersTableCell}>Address</div>
@@ -290,16 +314,19 @@ function Game() {
           </div>
           {gameWinners.allTimeWinners.keys().map((address, index) => (
             <div key={index} className={classes.winnersTableRow}>
-              <div className={classes.winnersTableCell}>
-                {address.toRawString()}
+              <div
+                className={`${classes.winnersTableCell} ${classes.addressCell}`}
+              >
+                {address.toString()}
               </div>
               <div className={classes.winnersTableCell}>
                 {gameWinners.allTimeWinners.get(address)?.count.toString()}
               </div>
               <div className={classes.winnersTableCell}>
-                {gameWinners.allTimeWinners
-                  .get(address)
-                  ?.totalAmount.toString()}
+                {(Number(
+                  gameWinners.allTimeWinners.get(address)?.totalAmount
+                ) ?? 0) / 1_000_000_000}
+                &nbsp;TON
               </div>
             </div>
           ))}

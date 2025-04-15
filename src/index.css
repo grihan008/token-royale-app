@@ -1,9 +1,10 @@
 /* Variables */
 :root {
-  --color-primary: #003459;
-  --color-secondary: #007ea7;
-  --color-success: #329f5b;
-  --color-background: #aed9e0;
+  --color-primary: #3112cc;
+  --color-secondary: #204551;
+  --color-tertiary: #4f646f;
+  --color-darkened: #dee7e7;
+  --color-background: #f4faff;
   --color-text: #00171f;
   --font-family: 'Arial, sans-serif';
 }
