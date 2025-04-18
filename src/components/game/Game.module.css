@@ -72,70 +72,52 @@ h6 {
   h2 {
     background-color: var(--color-tertiary);
     padding: 0 1rem;
+    border-radius: 0.5rem 0.5rem 0 0;
   }
 
   h1 {
     background-color: var(--color-secondary);
     padding: 0 2rem;
+    border-radius: 0.5rem;
   }
 }
 
 .countdownTime {
   font-size: 4rem;
+  font-family: monospace;
 }
 
 .gameInfo {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
   color: white;
   margin-bottom: 2rem;
 
   h3 {
     background-color: var(--color-tertiary);
     padding: 0 1rem;
+    font-size: 1.25rem;
+    border-radius: 0.5rem 0.5rem 0 0;
   }
 
   h2 {
     background-color: var(--color-secondary);
     padding: 0 2rem;
+    font-size: 1.75rem;
+    border-radius: 0 0 0.5rem 0.5rem;
   }
 }
 
 .checkInStatus {
   display: flex;
   flex-direction: column;
-  background: orange;
-  border: 1px solid orangered;
+  background: rgb(7, 156, 201);
+  color: white;
   border-radius: 0.5rem;
   width: fit-content;
   margin: 0 auto 2rem;
   padding: 1rem;
-}
-
-.ongoingGameInfo {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  color: white;
-  margin-bottom: 2rem;
-
-  & > div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-  }
-
-  h3 {
-    background-color: var(--color-tertiary);
-    padding: 0 1rem;
-  }
-
-  h2 {
-    background-color: var(--color-secondary);
-    padding: 0 2rem;
-  }
+  text-align: center;
 }

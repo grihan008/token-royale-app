@@ -16,6 +16,7 @@ type Winners = Awaited<
 >;
 
 function Game() {
+  const [timeOffset, setTimeOffset] = useState<number>(0);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [gameWinners, setGameWinners] = useState<Winners | null>(null);
   const [timeToElimination, setTimeToElimination] = useState<number | null>(
@@ -24,6 +25,14 @@ function Game() {
 
   const walletAddress = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
+
+  const getTimeOffset = async () => {
+    const tokenRoyaleInstance = await getTokenRoyaleInstance();
+    const blockchainTime = await tokenRoyaleInstance.getBlockchainTime();
+    const currentTime = Math.floor(Date.now() / 1000);
+    const offset = currentTime - Number(blockchainTime);
+    setTimeOffset(offset);
+  };
 
   const getGameState = async () => {
     const tokenRoyaleInstance = await getTokenRoyaleInstance();
@@ -73,23 +82,29 @@ function Game() {
 
   const upcomingEliminationTimestamp = gameState?.eliminationTimestamps
     .values()
-    .find((timestamp) => timestamp > Date.now() / 1000);
+    .find((timestamp) => timestamp > Date.now() / 1000 - timeOffset);
 
   const start = useRef(Date.now());
 
   useEffect(() => {
     if (!walletAddress) return;
-    getGameState();
+    getTimeOffset();
+
+    const getGameStateTimeout = setTimeout(() => {
+      getGameState();
+    }, 2000);
 
     const getWinnersTimeout = setTimeout(() => {
       getWinners();
-    }, 2500);
+    }, 4000);
 
     const interval = setInterval(() => {
       const currentTime = Date.now();
       if (currentTime - start.current < 6000) return; // Wait for 6 seconds before starting polling
       if (upcomingEliminationTimestamp) {
-        const timeLeft = upcomingEliminationTimestamp * 1000 - currentTime;
+        const timeLeft =
+          upcomingEliminationTimestamp * 1000 -
+          (currentTime - timeOffset * 1000);
         setTimeToElimination(timeLeft > 0 ? timeLeft : 0);
 
         // Update the game every 5 seconds on /5 + 1 second
@@ -111,6 +126,7 @@ function Game() {
     return () => {
       clearInterval(interval);
       clearTimeout(getWinnersTimeout);
+      clearTimeout(getGameStateTimeout);
     }; // Cleanup interval and timeout on unmount
   }, [walletAddress, upcomingEliminationTimestamp]);
 
@@ -136,7 +152,7 @@ function Game() {
 
   if (
     eliminationTimestamps.length &&
-    Date.now() / 1000 > eliminationTimestamps[0]
+    Date.now() / 1000 - timeOffset > eliminationTimestamps[0]
   ) {
     gameHasStarted = true;
   }
@@ -144,7 +160,8 @@ function Game() {
   let gameHasEnded = false;
   if (
     eliminationTimestamps.length &&
-    eliminationTimestamps[eliminationTimestamps.length - 1] < Date.now() / 1000
+    eliminationTimestamps[eliminationTimestamps.length - 1] <
+      Date.now() / 1000 - timeOffset
   ) {
     gameHasEnded = true;
   }
@@ -190,56 +207,58 @@ function Game() {
       <div className={classes.container}>
         {timeToElimination !== null && (
           <>
-            <div className={classes.countdown}>
-              {gameHasStarted ? (
-                <>
-                  <h2>Elimination in</h2>
-                </>
-              ) : (
-                <h2>Game starts in</h2>
-              )}
-              <h1 className={classes.countdownTime}>
-                {new Date(timeToElimination).toISOString().substr(11, 8)}
-              </h1>
-            </div>
+            <div className={classes.gameInformation}>
+              <div className={classes.countdown}>
+                {gameHasStarted ? (
+                  <>
+                    <h2>Elimination in</h2>
+                  </>
+                ) : (
+                  <h2>Game starts in</h2>
+                )}
+                <h1 className={classes.countdownTime}>
+                  {new Date(timeToElimination).toISOString().substr(11, 8)}
+                </h1>
+              </div>
 
-            {gameHasStarted ? (
-              <div className={classes.ongoingGameInfo}>
-                <div>
-                  <h3>Round</h3>
-                  <h2>
-                    {upcomingEliminationTimestampIndex} /{' '}
-                    {eliminationTimestamps.length - 1}
-                  </h2>
+              {gameHasStarted ? (
+                <div className={classes.gameInfo}>
+                  <div>
+                    <h3>Round</h3>
+                    <h2>
+                      {upcomingEliminationTimestampIndex} /{' '}
+                      {eliminationTimestamps.length - 1}
+                    </h2>
+                  </div>
+                  <div>
+                    <h3>Players</h3>
+                    <h2>
+                      {gameState.amountOfRemainingParticipants} /{' '}
+                      {gameState.amountOfParticipants}
+                    </h2>
+                  </div>
+                  <div>
+                    <h3>Prize pool</h3>
+                    <h2>~{Number(gameState.prizePool).toFixed(2)}&nbsp;TON</h2>
+                  </div>
                 </div>
-                <div>
-                  <h3>Players</h3>
-                  <h2>
-                    {gameState.amountOfRemainingParticipants} /{' '}
-                    {gameState.amountOfParticipants}
-                  </h2>
+              ) : (
+                <div className={classes.gameInfo}>
+                  <div>
+                    <h3>Entry fee</h3>
+                    <h2>{Number(gameState.entryFee) / 1_000_000_000} TON</h2>
+                  </div>
+                  <div>
+                    <h3>Prize pool</h3>
+                    <h2>~{Number(gameState.prizePool).toFixed(2)}&nbsp;TON</h2>
+                  </div>
+                  <div>
+                    <h3>Players</h3>
+                    <h2>{gameState.amountOfParticipants}</h2>
+                  </div>
                 </div>
-                <div>
-                  <h3>Prize pool</h3>
-                  <h2>~{Number(gameState.prizePool).toFixed(2)}&nbsp;TON</h2>
-                </div>
-              </div>
-            ) : (
-              <div className={classes.gameInfo}>
-                <div>
-                  <h3>Entry fee</h3>
-                  <h2>{Number(gameState.entryFee) / 1_000_000_000} TON</h2>
-                </div>
-                <div>
-                  <h3>Prize pool</h3>
-                  <h2>~{Number(gameState.prizePool).toFixed(2)}&nbsp;TON</h2>
-                </div>
-                <div>
-                  <h3>Players</h3>
-                  <h2>{gameState.amountOfParticipants}</h2>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
 
             {!lastCheckInTime && !gameHasStarted && (
               <button className={classes.button} onClick={joinTheGame}>
@@ -249,20 +268,20 @@ function Game() {
 
             {lastCheckInTime && !gameHasStarted && (
               <div className={classes.checkInStatus}>
-                <h3>You have already registered</h3>
+                <h3>YOU HAVE ALREAD REGISTERED</h3>
                 <p>Get ready for the game to start</p>
               </div>
             )}
 
             {gameHasStarted && isCheckedIn && (
               <div className={classes.checkInStatus}>
-                <h3>You have already checked-in this round</h3>
+                <h3>YOU HAVE ALREADY CHECKED IN THIS ROUND</h3>
               </div>
             )}
 
             {gameHasStarted && !gameState.isStillInGame && (
               <div className={classes.checkInStatus}>
-                <h3>You have been eliminated</h3>
+                <h3>YOU HAVE BEEN ELIMINATED</h3>
                 <p>Better luck next time</p>
               </div>
             )}
