@@ -31,9 +31,9 @@ function Game() {
     const gameState = await tokenRoyaleInstance.getGameState(
       Address.parse(walletAddress)
     );
-    const blockchainTime = await gameState.blockchainTime;
-    const currentTime = Math.floor(Date.now() / 1000);
-    const offset = currentTime - Number(blockchainTime);
+    // const blockchainTime = await gameState.blockchainTime;
+    // const currentTime = Math.floor(Date.now() / 1000);
+    // const offset = currentTime - Number(blockchainTime);
     setTimeOffset(0);
     setGameState(gameState);
   };
