@@ -26,19 +26,15 @@ function Game() {
   const walletAddress = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
 
-  const getTimeOffset = async () => {
-    const tokenRoyaleInstance = await getTokenRoyaleInstance();
-    const blockchainTime = await tokenRoyaleInstance.getBlockchainTime();
-    const currentTime = Math.floor(Date.now() / 1000);
-    const offset = currentTime - Number(blockchainTime);
-    setTimeOffset(offset);
-  };
-
   const getGameState = async () => {
     const tokenRoyaleInstance = await getTokenRoyaleInstance();
     const gameState = await tokenRoyaleInstance.getGameState(
       Address.parse(walletAddress)
     );
+    const blockchainTime = await gameState.blockchainTime;
+    const currentTime = Math.floor(Date.now() / 1000);
+    const offset = currentTime - Number(blockchainTime);
+    setTimeOffset(0);
     setGameState(gameState);
   };
 
@@ -80,6 +76,8 @@ function Game() {
     );
   };
 
+  const upcomingEliminationTimestampRef = useRef<number | undefined>(undefined);
+
   const upcomingEliminationTimestamp = gameState?.eliminationTimestamps
     .values()
     .find((timestamp) => timestamp > Date.now() / 1000 - timeOffset);
@@ -88,23 +86,33 @@ function Game() {
 
   useEffect(() => {
     if (!walletAddress) return;
-    getTimeOffset();
-
-    const getGameStateTimeout = setTimeout(() => {
-      getGameState();
-    }, 2000);
+    start.current = Date.now();
+    getGameState();
 
     const getWinnersTimeout = setTimeout(() => {
       getWinners();
-    }, 4000);
+    }, 3000);
+
+    return () => {
+      clearTimeout(getWinnersTimeout);
+    };
+  }, [walletAddress]);
+
+  useEffect(() => {
+    upcomingEliminationTimestampRef.current = upcomingEliminationTimestamp;
+  }, [upcomingEliminationTimestamp]);
+
+  useEffect(() => {
+    if (!walletAddress) return;
 
     const interval = setInterval(() => {
       const currentTime = Date.now();
       if (currentTime - start.current < 6000) return; // Wait for 6 seconds before starting polling
-      if (upcomingEliminationTimestamp) {
+      if (upcomingEliminationTimestampRef.current) {
         const timeLeft =
-          upcomingEliminationTimestamp * 1000 -
+          upcomingEliminationTimestampRef.current * 1000 -
           (currentTime - timeOffset * 1000);
+
         setTimeToElimination(timeLeft > 0 ? timeLeft : 0);
 
         // Update the game every 5 seconds on /5 + 1 second
@@ -125,10 +133,8 @@ function Game() {
 
     return () => {
       clearInterval(interval);
-      clearTimeout(getWinnersTimeout);
-      clearTimeout(getGameStateTimeout);
     }; // Cleanup interval and timeout on unmount
-  }, [walletAddress, upcomingEliminationTimestamp]);
+  }, [walletAddress]);
 
   if (!walletAddress) {
     return (
@@ -268,7 +274,7 @@ function Game() {
 
             {lastCheckInTime && !gameHasStarted && (
               <div className={classes.checkInStatus}>
-                <h3>YOU HAVE ALREAD REGISTERED</h3>
+                <h3>YOU HAVE ALREADY REGISTERED</h3>
                 <p>Get ready for the game to start</p>
               </div>
             )}
