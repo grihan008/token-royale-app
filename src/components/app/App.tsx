@@ -1,7 +1,7 @@
 import classes from './App.module.css';
 import { TonConnectButton, TonConnectUIProvider } from '@tonconnect/ui-react';
 import Game from '../game/Game';
-import tokenRoyaleLogo from '/favicon.jpg';
+import tokenRoyaleLogo from '/favicon.png';
 
 function App() {
   return (
