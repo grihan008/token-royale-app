@@ -1,1 +1,1 @@
-tsc -b
+npx tsc -b
