@@ -1,4 +1,3 @@
-import { Address } from '@ton/ton';
 import { getTokenRoyaleInstance } from '../../utils/contractUtils';
 
 export type GameState = Awaited<
