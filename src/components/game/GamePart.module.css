@@ -88,3 +88,67 @@ h6 {
   padding: 1rem;
   text-align: center;
 }
+
+/* Progress bar styles */
+.roundProgressContainer {
+  display: flex;
+  align-items: stretch;
+  margin: 1rem 0 2rem;
+  color: white;
+}
+
+.roundProgressContainer h4 {
+  background-color: var(--color-tertiary);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem 0 0 0.5rem;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.roundProgressBar {
+  display: flex;
+  border-radius: 0 0.5rem 0.5rem 0;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  flex: 1;
+}
+
+.roundSegment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s ease;
+  min-width: 2.5rem;
+
+  &:not(:last-child) {
+    border-right: 1px solid var(--color-primary);
+  }
+}
+
+.pastRound {
+  background-color: var(--color-tertiary);
+  opacity: 0.7;
+}
+
+.currentRound {
+  background-color: var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary);
+  z-index: 1;
+}
+
+.futureRound {
+  background-color: var(--color-secondary);
+  opacity: 0.5;
+}
+
+.roundNumber {
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.gameInformation {
+  margin-bottom: 2rem;
+}

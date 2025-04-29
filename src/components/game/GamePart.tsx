@@ -58,6 +58,25 @@ function GamePart({
     }
   }
 
+  // Calculate round durations
+  const roundDurations: number[] = [];
+  if (eliminationTimestamps.length > 1) {
+    for (let i = 0; i < eliminationTimestamps.length - 1; i++) {
+      const duration = eliminationTimestamps[i + 1] - eliminationTimestamps[i];
+      roundDurations.push(duration * 1000); // Convert to milliseconds
+    }
+  }
+
+  // Format time for round duration tooltip
+  const formatDuration = (milliseconds: number): string => {
+    const hours = Math.floor(milliseconds / (1000 * 60 * 60));
+    const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
+    return `${hours ? `${hours}h` : ''} ${minutes ? `${minutes}m` : ''} ${
+      seconds ? `${seconds}s` : ''
+    }`;
+  };
+
   return (
     <div className={classes.container}>
       {timeToElimination !== null && (
@@ -75,6 +94,44 @@ function GamePart({
                 {new Date(timeToElimination).toISOString().substr(11, 8)}
               </h1>
             </div>
+
+            {/* Round Progress Bar */}
+            {eliminationTimestamps.length > 1 && (
+              <div className={classes.roundProgressContainer}>
+                <h4>Rounds</h4>
+                <div className={classes.roundProgressBar}>
+                  {roundDurations.map((duration, index) => {
+                    const isCurrentRound =
+                      index === upcomingEliminationTimestampIndex - 1;
+                    const isPastRound =
+                      index < upcomingEliminationTimestampIndex - 1;
+                    const roundClassName = isCurrentRound
+                      ? classes.currentRound
+                      : isPastRound
+                      ? classes.pastRound
+                      : classes.futureRound;
+
+                    // Width proportional to round duration
+                    const width = `${
+                      (duration / roundDurations.reduce((a, b) => a + b, 0)) *
+                      100
+                    }%`;
+
+                    return (
+                      <div
+                        key={index}
+                        className={`${classes.roundSegment} ${roundClassName}`}
+                        style={{ width }}
+                      >
+                        <span className={classes.roundNumber}>
+                          {formatDuration(duration)}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {gameHasStarted ? (
               <div className={classes.gameInfo}>
