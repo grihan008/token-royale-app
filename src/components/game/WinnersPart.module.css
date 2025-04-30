@@ -2,6 +2,7 @@
   max-width: 720px;
   margin: 0 auto;
   padding: 2rem;
+  margin-top: 4rem;
 }
 
 h1,
@@ -11,6 +12,13 @@ h4,
 h5,
 h6 {
   text-align: center;
+}
+
+.winnersWrapper {
+  background: linear-gradient(
+    var(--color-background),
+    rgb(from var(--color-tertiary) r g b / 0.2)
+  );
 }
 
 .winnersTable {
