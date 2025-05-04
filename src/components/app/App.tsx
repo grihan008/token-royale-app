@@ -4,7 +4,7 @@ import Game from '../game/Game';
 import tokenRoyaleLogo from '/favicon.png';
 import { LanguageProvider, useLanguage } from '../../context/LanguageContext';
 import { useTranslation } from '../../utils/useTranslation';
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 
 // Info Dialog component
 function InfoDialog() {
