@@ -1,5 +1,6 @@
 import { GameState } from './types.ts';
 import classes from './GamePart.module.css';
+import { useTranslation } from '../../utils/useTranslation';
 
 interface GamePartProps {
   gameState: GameState;
@@ -22,12 +23,13 @@ function GamePart({
   joinTheGame,
   checkIn,
 }: GamePartProps) {
+  const { t } = useTranslation();
   const isGameUpcoming = gameState.upcomingEliminationTimestamp !== null;
 
   if (!isGameUpcoming) {
     return (
       <div className={classes.container}>
-        <h1>There is no game planned yet</h1>
+        <h1>{t('game.noGame')}</h1>
       </div>
     );
   }
@@ -35,8 +37,8 @@ function GamePart({
   if (gameHasEnded) {
     return (
       <div className={classes.container}>
-        <h1>GAME COMPLETED</h1>
-        <h2>The winners will be announced soon!</h2>
+        <h1>{t('game.completed')}</h1>
+        <h2>{t('game.winnersAnnouncement')}</h2>
       </div>
     );
   }
@@ -90,11 +92,9 @@ function GamePart({
           <div className={classes.gameInformation}>
             <div className={classes.countdown}>
               {gameHasStarted ? (
-                <>
-                  <h2>Elimination in</h2>
-                </>
+                <h2>{t('game.eliminationIn')}</h2>
               ) : (
-                <h2>Game starts in</h2>
+                <h2>{t('game.startIn')}</h2>
               )}
               <h1 className={classes.countdownTime}>
                 {new Date(timeToElimination).toISOString().substr(11, 8)}
@@ -103,69 +103,69 @@ function GamePart({
 
             {!lastCheckInTime && !gameHasStarted && (
               <button className={classes.button} onClick={joinTheGame}>
-                JOIN
+                {t('game.join')}
               </button>
             )}
 
             {lastCheckInTime && !gameHasStarted && (
               <div className={classes.checkInStatus}>
-                <h3>YOU HAVE ALREADY REGISTERED</h3>
-                <p>Get ready for the game to start</p>
+                <h3>{t('game.registered')}</h3>
+                <p>{t('game.getReady')}</p>
               </div>
             )}
 
             {gameHasStarted && isCheckedIn && (
               <div className={classes.checkInStatus}>
-                <h3>YOU HAVE ALREADY CHECKED IN THIS ROUND</h3>
+                <h3>{t('game.checkedIn')}</h3>
               </div>
             )}
 
             {gameHasStarted && !gameState.isStillInGame && (
               <div className={classes.checkInStatus}>
-                <h3>YOU HAVE BEEN ELIMINATED</h3>
-                <p>Better luck next time</p>
+                <h3>{t('game.eliminated')}</h3>
+                <p>{t('game.betterLuck')}</p>
               </div>
             )}
 
             {gameHasStarted && gameState.isStillInGame && (
               <button className={classes.button} onClick={checkIn}>
-                CHECK-IN
+                {t('game.checkIn')}
               </button>
             )}
 
             {gameHasStarted ? (
               <div className={classes.gameInfo}>
                 <div>
-                  <h3>Round</h3>
+                  <h3>{t('game.round')}</h3>
                   <h2>
                     {upcomingEliminationTimestampIndex} /{' '}
                     {eliminationTimestamps.length - 1}
                   </h2>
                 </div>
                 <div>
-                  <h3>Players</h3>
+                  <h3>{t('game.players')}</h3>
                   <h2>
                     {gameState.amountOfRemainingParticipants} /{' '}
                     {gameState.amountOfParticipants}
                   </h2>
                 </div>
                 <div>
-                  <h3>Prize pool</h3>
+                  <h3>{t('game.prizePool')}</h3>
                   <h2>~{Number(gameState.prizePool).toFixed(2)}&nbsp;TON</h2>
                 </div>
               </div>
             ) : (
               <div className={classes.gameInfo}>
                 <div>
-                  <h3>Entry fee</h3>
+                  <h3>{t('game.entryFee')}</h3>
                   <h2>{Number(gameState.entryFee) / 1_000_000_000} TON</h2>
                 </div>
                 <div>
-                  <h3>Prize pool</h3>
+                  <h3>{t('game.prizePool')}</h3>
                   <h2>~{Number(gameState.prizePool).toFixed(2)}&nbsp;TON</h2>
                 </div>
                 <div>
-                  <h3>Players</h3>
+                  <h3>{t('game.players')}</h3>
                   <h2>{gameState.amountOfParticipants}</h2>
                 </div>
               </div>
@@ -174,7 +174,7 @@ function GamePart({
             {/* Round Progress Bar */}
             {eliminationTimestamps.length > 1 && (
               <div className={classes.roundProgressContainer}>
-                <h4>Rounds</h4>
+                <h4>{t('game.rounds')}</h4>
                 <div className={classes.roundProgressBar}>
                   {roundDurations.map((duration, index) => {
                     let isCurrentRound = false;

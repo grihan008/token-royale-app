@@ -23,3 +23,38 @@
   display: flex;
   flex-direction: column;
 }
+
+.navbarRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.languageSelector {
+  display: flex;
+  gap: 5px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2px;
+}
+
+.langButton {
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  transition: background-color 0.3s;
+  border-radius: 6px;
+  background-color: rgb(from var(--color-tertiary) r g b / 0.4);
+}
+
+.langButton:hover {
+  background-color: rgb(from var(--color-tertiary) r g b / 1);
+}
+
+.langButton.active {
+  background-color: var(--color-primary);
+}

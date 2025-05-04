@@ -1,5 +1,6 @@
 import { Winners } from './types.ts';
 import classes from './WinnersPart.module.css';
+import { useTranslation } from '../../utils/useTranslation';
 
 interface WinnersPartProps {
   gameWinners: Winners | null;
@@ -7,6 +8,8 @@ interface WinnersPartProps {
 }
 
 function WinnersPart({ gameWinners, gameHasEnded }: WinnersPartProps) {
+  const { t } = useTranslation();
+
   if (!gameWinners || gameWinners.lastGameWinners.size === 0) {
     return null;
   }
@@ -14,13 +17,19 @@ function WinnersPart({ gameWinners, gameHasEnded }: WinnersPartProps) {
   return (
     <div className={classes.winnersWrapper}>
       <div className={classes.container}>
-        <h1>Winners</h1>
-        <h2 className={classes.winnersTableTitle}>Previous game winners</h2>
+        <h1>{t('winners.title')}</h1>
+        <h2 className={classes.winnersTableTitle}>
+          {t('winners.previousGame')}
+        </h2>
         {!gameHasEnded && (
           <div className={classes.winnersTable}>
             <div className={classes.winnersTableHeader}>
-              <div className={classes.winnersTableCell}>Address</div>
-              <div className={classes.winnersTableCell}>Winnings</div>
+              <div className={classes.winnersTableCell}>
+                {t('winners.address')}
+              </div>
+              <div className={classes.winnersTableCell}>
+                {t('winners.winnings')}
+              </div>
             </div>
             {gameWinners.lastGameWinners.keys().map((address, index) => (
               <div key={index} className={classes.winnersTableRow}>
@@ -38,12 +47,16 @@ function WinnersPart({ gameWinners, gameHasEnded }: WinnersPartProps) {
             ))}
           </div>
         )}
-        <h2 className={classes.winnersTableTitle}>All time winners</h2>
+        <h2 className={classes.winnersTableTitle}>{t('winners.allTime')}</h2>
         <div className={classes.winnersTable}>
           <div className={classes.winnersTableHeader}>
-            <div className={classes.winnersTableCell}>Address</div>
-            <div className={classes.winnersTableCell}>Wins</div>
-            <div className={classes.winnersTableCell}>Winnings</div>
+            <div className={classes.winnersTableCell}>
+              {t('winners.address')}
+            </div>
+            <div className={classes.winnersTableCell}>{t('winners.wins')}</div>
+            <div className={classes.winnersTableCell}>
+              {t('winners.winnings')}
+            </div>
           </div>
           {gameWinners.allTimeWinners.keys().map((address, index) => (
             <div key={index} className={classes.winnersTableRow}>

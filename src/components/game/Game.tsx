@@ -5,6 +5,7 @@ import {
   getTokenRoyaleInstance,
   TonConnectProvider,
 } from '../../utils/contractUtils';
+import { useTranslation } from '../../utils/useTranslation';
 
 import GamePart from './GamePart';
 import WinnersPart from './WinnersPart';
@@ -13,6 +14,7 @@ import { GameState, Winners } from './types';
 import classes from './Game.module.css';
 
 function Game() {
+  const { t } = useTranslation();
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [gameWinners, setGameWinners] = useState<Winners | null>(null);
   const [timeToElimination, setTimeToElimination] = useState<number | null>(
@@ -130,7 +132,7 @@ function Game() {
   if (!walletAddress) {
     return (
       <div className={classes.container}>
-        <h1>Please connect your wallet</h1>
+        <h1>{t('game.connectWallet')}</h1>
       </div>
     );
   }
@@ -138,7 +140,7 @@ function Game() {
   if (!gameState) {
     return (
       <div className={classes.container}>
-        <h1>Loading...</h1>
+        <h1>{t('game.loading')}</h1>
       </div>
     );
   }
