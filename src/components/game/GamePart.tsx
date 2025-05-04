@@ -186,9 +186,8 @@ function GamePart({
                       isPastRound = gameHasStarted; // Registration period is not past
                     } else {
                       isCurrentRound =
-                        index === upcomingEliminationTimestampIndex - 1;
-                      isPastRound =
-                        index < upcomingEliminationTimestampIndex - 1;
+                        index === upcomingEliminationTimestampIndex;
+                      isPastRound = index < upcomingEliminationTimestampIndex;
                     }
 
                     const roundClassName = isCurrentRound
