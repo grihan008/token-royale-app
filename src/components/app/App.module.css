@@ -58,3 +58,131 @@
 .langButton.active {
   background-color: var(--color-primary);
 }
+
+/* Info Button Styles */
+.infoButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--color-secondary);
+  cursor: pointer;
+  border: 1px solid var(--color-secondary);
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.infoButton:hover {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.infoButton:focus {
+  outline: none;
+}
+
+/* Dialog Styles */
+.dialog {
+  border-radius: 12px;
+  background-color: white;
+  color: black;
+  padding: 0;
+  max-width: 500px;
+  width: 90%;
+  margin: auto;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  max-height: 70vh;
+  height: 100vh;
+}
+
+.dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dialogWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dialogHeader {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dialogTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.dialogClose {
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0.25rem;
+}
+
+.dialogContent {
+  padding: 1.5rem;
+  overflow: auto;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dialogSection {
+  margin-bottom: 1.5rem;
+}
+
+.dialogSectionTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+}
+
+.dialogText {
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  white-space: pre-wrap;
+}
+
+.dialogStep {
+  margin-bottom: 0.5rem;
+}
+
+.dialogDivider {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 1rem 0;
+}
+
+.dialogFooter {
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dialogButton {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dialogButton:hover {
+  background-color: rgb(from var(--color-primary) r g b / 0.8);
+}
