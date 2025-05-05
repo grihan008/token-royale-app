@@ -48,8 +48,10 @@ function WinnersPart({ gameWinners, gameHasEnded }: WinnersPartProps) {
                   {formatAddress(address.toString())}
                 </div>
                 <div className={classes.winnersTableCell}>
-                  {(Number(gameWinners.lastGameWinners.get(address)) ?? 0) /
-                    1_000_000_000}
+                  {(
+                    (Number(gameWinners.lastGameWinners.get(address)) ?? 0) /
+                    1_000_000_000
+                  ).toFixed(2)}
                   &nbsp;TON
                 </div>
               </div>
@@ -78,9 +80,11 @@ function WinnersPart({ gameWinners, gameHasEnded }: WinnersPartProps) {
                 {gameWinners.allTimeWinners.get(address)?.count.toString()}
               </div>
               <div className={classes.winnersTableCell}>
-                {(Number(
-                  gameWinners.allTimeWinners.get(address)?.totalAmount
-                ) ?? 0) / 1_000_000_000}
+                {(
+                  (Number(
+                    gameWinners.allTimeWinners.get(address)?.totalAmount
+                  ) ?? 0) / 1_000_000_000
+                ).toFixed(2)}
                 &nbsp;TON
               </div>
             </div>
