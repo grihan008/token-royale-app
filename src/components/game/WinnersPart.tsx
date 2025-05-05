@@ -7,6 +7,15 @@ interface WinnersPartProps {
   gameHasEnded: boolean;
 }
 
+function formatAddress(address: string): string {
+  if (!address || address.length <= 8) {
+    return address;
+  }
+  return `${address.substring(0, 4)}...${address.substring(
+    address.length - 4
+  )}`;
+}
+
 function WinnersPart({ gameWinners, gameHasEnded }: WinnersPartProps) {
   const { t } = useTranslation();
 
@@ -36,7 +45,7 @@ function WinnersPart({ gameWinners, gameHasEnded }: WinnersPartProps) {
                 <div
                   className={`${classes.winnersTableCell} ${classes.addressCell}`}
                 >
-                  {address.toString()}
+                  {formatAddress(address.toString())}
                 </div>
                 <div className={classes.winnersTableCell}>
                   {(Number(gameWinners.lastGameWinners.get(address)) ?? 0) /
@@ -63,7 +72,7 @@ function WinnersPart({ gameWinners, gameHasEnded }: WinnersPartProps) {
               <div
                 className={`${classes.winnersTableCell} ${classes.addressCell}`}
               >
-                {address.toString()}
+                {formatAddress(address.toString())}
               </div>
               <div className={classes.winnersTableCell}>
                 {gameWinners.allTimeWinners.get(address)?.count.toString()}
