@@ -1,5 +1,9 @@
 import classes from './App.module.css';
-import { TonConnectButton, TonConnectUIProvider } from '@tonconnect/ui-react';
+import {
+  THEME,
+  TonConnectButton,
+  TonConnectUIProvider,
+} from '@tonconnect/ui-react';
 import Game from '../game/Game';
 import tokenRoyaleLogo from '/favicon.png';
 import { LanguageProvider, useLanguage } from '../../context/LanguageContext';
@@ -112,12 +116,10 @@ function LanguageSelector() {
 
 // Main app content with language selector
 function AppContent() {
-  const { language } = useLanguage();
-
   return (
     <TonConnectUIProvider
       manifestUrl="https://grihan008.github.io/token-royale-app/tonconnect-manifest.json"
-      language={language}
+      uiPreferences={{ theme: THEME.LIGHT }}
     >
       <div className={classes.page}>
         <nav className={classes.navbar}>

@@ -14,7 +14,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem min(2rem, 5vw);
 }
 
 .main {
@@ -32,18 +32,18 @@
 
 .languageSelector {
   display: flex;
-  gap: 5px;
-  border-radius: 8px;
+  gap: 0.25rem;
+  border-radius: 0.5rem;
   overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 2px;
+  background-color: rgb(from var(--color-tertiary) r g b / 0.1);
+  padding: 0.125rem;
 }
 
 .langButton {
   border: none;
-  padding: 5px 10px;
+  padding: 0.25rem 0.5rem;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   color: white;
   transition: background-color 0.3s;
@@ -64,8 +64,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: 50%;
   color: var(--color-secondary);
   cursor: pointer;
@@ -73,6 +73,7 @@
   font-weight: bold;
   font-size: 16px;
   transition: background-color 0.3s, color 0.3s;
+  background-color: transparent;
 }
 
 .infoButton:hover {

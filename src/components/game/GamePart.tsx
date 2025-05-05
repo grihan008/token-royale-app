@@ -75,7 +75,7 @@ function GamePart({
   // Format time for round duration tooltip
   const formatDuration = (milliseconds: number): string => {
     if (milliseconds === -1) {
-      return 'Registration';
+      return t('game.registration');
     }
     const hours = Math.floor(milliseconds / (1000 * 60 * 60));
     const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));

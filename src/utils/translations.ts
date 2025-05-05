@@ -60,7 +60,7 @@ export const translations: Translations = {
   },
   'game.join': {
     en: 'JOIN',
-    ru: 'ЗАРЕГИСТРИРОВАТЬСЯ',
+    ru: 'ВОЙТИ',
   },
   'game.checkIn': {
     en: 'CHECK-IN',
