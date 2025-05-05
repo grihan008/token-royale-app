@@ -24,6 +24,8 @@ h6 {
 .winnersTable {
   width: 100%;
   display: table;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .winnersTableTitle {
@@ -42,6 +44,11 @@ h6 {
 .winnersTableRow {
   display: table-row;
   border-bottom: 1px solid black;
+  background-color: rgb(from var(--color-tertiary) r g b / 0.1);
+
+  &:nth-child(odd) {
+    background-color: rgb(from var(--color-tertiary) r g b / 0.05);
+  }
 }
 
 .winnersTableCell {
