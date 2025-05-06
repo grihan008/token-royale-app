@@ -9,8 +9,7 @@ import {
 } from '@ton/ton';
 import { TokenRoyale } from '../contract-wrappers/TokenRoyale';
 
-export const CONTRACT_ADDRESS =
-  'EQCaOVhBJXR9U4uEbrSijyN_rWlI6yePNokP19IfYYBEbx2u';
+export const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS as string;
 
 export const getTokenRoyaleInstance = async () => {
   const client = new TonClient({
