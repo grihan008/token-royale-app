@@ -26,21 +26,18 @@ function Game() {
   const [tonConnectUI] = useTonConnectUI();
 
   const getTimeOffset = async () => {
-    fetch('https://aisenseapi.com/services/v1/timestamp', {
+    fetch(window.location.href + 'favicon.ico', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        const serverTime = data.timestamp * 1000;
+      .then((res) => {
+        const serverTime = new Date(res.headers.get('date') || '').getTime();
         const localTime = Date.now();
-        setTimeOffset(Math.floor(localTime - serverTime));
+        setTimeOffset(localTime - serverTime);
       })
-      .catch((error) => {
-        console.error('Error fetching server time:', error);
-      });
+      .catch((err) => console.log(err));
   };
 
   const getGameState = async () => {
