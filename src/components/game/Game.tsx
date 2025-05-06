@@ -35,7 +35,7 @@ function Game() {
       .then((res) => {
         const serverTime = new Date(res.headers.get('date') || '').getTime();
         const localTime = Date.now();
-        setTimeOffset(serverTime - localTime);
+        setTimeOffset(localTime - serverTime);
       })
       .catch((err) => console.log(err));
   };
