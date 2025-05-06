@@ -15,6 +15,7 @@ import classes from './Game.module.css';
 
 function Game() {
   const { t } = useTranslation();
+  const [timeOffset, setTimeOffset] = useState<number>(0);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [gameWinners, setGameWinners] = useState<Winners | null>(null);
   const [timeToElimination, setTimeToElimination] = useState<number | null>(
@@ -23,6 +24,19 @@ function Game() {
 
   const walletAddress = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
+
+  const getTimeOffset = async () => {
+    fetch('https://aisenseapi.com/services/v1/timestamp')
+      .then((response) => response.json())
+      .then((data) => {
+        const serverTime = data.timestamp * 1000;
+        const localTime = Date.now();
+        setTimeOffset(Math.floor(localTime - serverTime));
+      })
+      .catch((error) => {
+        console.error('Error fetching server time:', error);
+      });
+  };
 
   const getGameState = async () => {
     const tokenRoyaleInstance = await getTokenRoyaleInstance();
@@ -79,6 +93,17 @@ function Game() {
   const start = useRef(Date.now());
 
   useEffect(() => {
+    getTimeOffset();
+    const interval = setInterval(() => {
+      getTimeOffset();
+    }, 10 * 60_000); // Update every 10 minutes
+
+    return () => {
+      clearInterval(interval);
+    }; // Cleanup interval on unmount
+  }, []);
+
+  useEffect(() => {
     if (!walletAddress) return;
     start.current = Date.now();
     getGameState();
@@ -104,7 +129,8 @@ function Game() {
       if (currentTime - start.current < 6000) return; // Wait for 6 seconds before starting polling
       if (upcomingEliminationTimestampRef.current) {
         const timeLeft =
-          upcomingEliminationTimestampRef.current * 1000 - currentTime;
+          upcomingEliminationTimestampRef.current * 1000 -
+          (currentTime - timeOffset);
 
         setTimeToElimination(timeLeft > 0 ? timeLeft : 0);
 
@@ -151,7 +177,7 @@ function Game() {
 
   if (
     eliminationTimestamps.length &&
-    Date.now() / 1000 > eliminationTimestamps[0]
+    (Date.now() - timeOffset) / 1000 > eliminationTimestamps[0]
   ) {
     gameHasStarted = true;
   }
@@ -159,7 +185,8 @@ function Game() {
   let gameHasEnded = false;
   if (
     eliminationTimestamps.length &&
-    eliminationTimestamps[eliminationTimestamps.length - 1] < Date.now() / 1000
+    eliminationTimestamps[eliminationTimestamps.length - 1] <
+      (Date.now() - timeOffset) / 1000
   ) {
     gameHasEnded = true;
   }
