@@ -26,7 +26,12 @@ function Game() {
   const [tonConnectUI] = useTonConnectUI();
 
   const getTimeOffset = async () => {
-    fetch('https://aisenseapi.com/services/v1/timestamp')
+    fetch('https://aisenseapi.com/services/v1/timestamp', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         const serverTime = data.timestamp * 1000;
