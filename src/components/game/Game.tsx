@@ -15,6 +15,7 @@ import classes from './Game.module.css';
 
 function Game() {
   const { t } = useTranslation();
+  const [timeOffset, setTimeOffset] = useState<number>(0);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [gameWinners, setGameWinners] = useState<Winners | null>(null);
   const [timeToElimination, setTimeToElimination] = useState<number | null>(
@@ -23,6 +24,24 @@ function Game() {
 
   const walletAddress = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
+
+  const getTimeOffset = async () => {
+    fetch('https://timestamp-api-gamma.vercel.app/api/timestamp', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const serverTime = data.timestamp;
+        const localTime = Date.now();
+        setTimeOffset(localTime - serverTime);
+      })
+      .catch((error) => {
+        console.error('Error fetching time offset:', error);
+      });
+  };
 
   const getGameState = async () => {
     const tokenRoyaleInstance = await getTokenRoyaleInstance();
@@ -74,9 +93,21 @@ function Game() {
 
   const upcomingEliminationTimestamp = gameState?.eliminationTimestamps
     .values()
-    .find((timestamp) => timestamp > Date.now() / 1000);
+    .find((timestamp) => timestamp > (Date.now() - timeOffset) / 1000);
 
   const start = useRef(Date.now());
+
+  useEffect(() => {
+    getTimeOffset();
+
+    const interval = setInterval(() => {
+      getTimeOffset();
+    }, 5 * 60_000); // Update every 5 minutes
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     if (!walletAddress) return;
@@ -104,7 +135,8 @@ function Game() {
       if (currentTime - start.current < 6000) return; // Wait for 6 seconds before starting polling
       if (upcomingEliminationTimestampRef.current) {
         const timeLeft =
-          upcomingEliminationTimestampRef.current * 1000 - currentTime;
+          upcomingEliminationTimestampRef.current * 1000 -
+          (currentTime - timeOffset);
 
         setTimeToElimination(timeLeft > 0 ? timeLeft : 0);
 
@@ -151,7 +183,7 @@ function Game() {
 
   if (
     eliminationTimestamps.length &&
-    Date.now() / 1000 > eliminationTimestamps[0]
+    (Date.now() - timeOffset) / 1000 > eliminationTimestamps[0]
   ) {
     gameHasStarted = true;
   }
@@ -159,7 +191,8 @@ function Game() {
   let gameHasEnded = false;
   if (
     eliminationTimestamps.length &&
-    eliminationTimestamps[eliminationTimestamps.length - 1] < Date.now() / 1000
+    eliminationTimestamps[eliminationTimestamps.length - 1] <
+      (Date.now() - timeOffset) / 1000
   ) {
     gameHasEnded = true;
   }
