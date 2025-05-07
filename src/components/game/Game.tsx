@@ -36,12 +36,14 @@ function Game() {
       .then((data) => {
         const serverTime = data.timestamp;
         const localTime = Date.now();
-        setTimeOffset(serverTime - localTime);
+        setTimeOffset(localTime - serverTime);
       })
       .catch((error) => {
         console.error('Error fetching time offset:', error);
       });
   };
+
+  console.log('Time offset:', timeOffset);
 
   const getGameState = async () => {
     const tokenRoyaleInstance = await getTokenRoyaleInstance();
