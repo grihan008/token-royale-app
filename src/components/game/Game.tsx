@@ -43,8 +43,6 @@ function Game() {
       });
   };
 
-  console.log('Time offset:', timeOffset);
-
   const getGameState = async () => {
     const tokenRoyaleInstance = await getTokenRoyaleInstance();
     const gameState = await tokenRoyaleInstance.getGameState(
@@ -92,6 +90,7 @@ function Game() {
   };
 
   const upcomingEliminationTimestampRef = useRef<number | undefined>(undefined);
+  const timeOffsetRef = useRef<number>(0);
 
   const upcomingEliminationTimestamp = gameState?.eliminationTimestamps
     .values()
@@ -130,6 +129,10 @@ function Game() {
   }, [upcomingEliminationTimestamp]);
 
   useEffect(() => {
+    timeOffsetRef.current = timeOffset;
+  }, [timeOffset]);
+
+  useEffect(() => {
     if (!walletAddress) return;
 
     const interval = setInterval(() => {
@@ -138,7 +141,7 @@ function Game() {
       if (upcomingEliminationTimestampRef.current) {
         const timeLeft =
           upcomingEliminationTimestampRef.current * 1000 -
-          (currentTime - timeOffset);
+          (currentTime - timeOffsetRef.current);
 
         setTimeToElimination(timeLeft > 0 ? timeLeft : 0);
 
