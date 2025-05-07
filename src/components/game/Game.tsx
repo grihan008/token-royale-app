@@ -36,7 +36,7 @@ function Game() {
       .then((data) => {
         const serverTime = data.timestamp;
         const localTime = Date.now();
-        setTimeOffset(localTime - serverTime);
+        setTimeOffset(serverTime - localTime);
       })
       .catch((error) => {
         console.error('Error fetching time offset:', error);
