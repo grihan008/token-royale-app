@@ -26,15 +26,28 @@ function Game() {
   const [tonConnectUI] = useTonConnectUI();
 
   const getTimeOffset = async () => {
-    fetch('https://timestamp-api-gamma.vercel.app/api/timestamp', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    // fetch('https://timestamp-api-gamma.vercel.app/api/timestamp', {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     const serverTime = data.timestamp;
+    //     const localTime = Date.now();
+    //     setTimeOffset(localTime - serverTime);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error fetching time offset:', error);
+    //   });
+    fetch(window.location.href + 'favicon.ico', {
+      method: 'HEAD',
     })
-      .then((response) => response.json())
-      .then((data) => {
-        const serverTime = data.timestamp;
+      .then((response) => {
+        const serverTime = new Date(
+          response.headers.get('date') || ''
+        ).getTime();
         const localTime = Date.now();
         setTimeOffset(localTime - serverTime);
       })
@@ -42,6 +55,8 @@ function Game() {
         console.error('Error fetching time offset:', error);
       });
   };
+
+  console.log('timeOffset', timeOffset);
 
   const getGameState = async () => {
     const tokenRoyaleInstance = await getTokenRoyaleInstance();
