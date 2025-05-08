@@ -15,7 +15,7 @@ import classes from './Game.module.css';
 
 function Game() {
   const { t } = useTranslation();
-  const [timeOffset, setTimeOffset] = useState<number>(0);
+  const [timeOffset, setTimeOffset] = useState<number>(5_000); // Compensate for difference between local and contract time
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [gameWinners, setGameWinners] = useState<Winners | null>(null);
   const [timeToElimination, setTimeToElimination] = useState<number | null>(
@@ -36,7 +36,7 @@ function Game() {
       .then((data) => {
         const serverTime = data.timestamp;
         const localTime = Date.now();
-        setTimeOffset(localTime - serverTime);
+        setTimeOffset(localTime - serverTime + 5_000);
       })
       .catch((error) => {
         console.error('Error fetching time offset:', error);
