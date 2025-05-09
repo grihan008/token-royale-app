@@ -42,6 +42,14 @@ export const translations: Translations = {
     en: 'YOU HAVE ALREADY CHECKED IN THIS ROUND',
     ru: 'ВЫ УЖЕ ЗАРЕГИСТРИРОВАЛИСЬ В ЭТОМ РАУНДЕ',
   },
+  'game.notCheckedIn': {
+    en: 'YOU HAVE NOT CHECKED IN THIS GAME',
+    ru: 'ВЫ НЕ ЗАРЕГИСТРИРОВАЛИСЬ В ЭТОЙ ИГРЕ',
+  },
+  'game.tryNextGame': {
+    en: 'Try again in the next game',
+    ru: 'Попробуйте снова в следующей игре',
+  },
   'game.eliminated': {
     en: 'YOU HAVE BEEN ELIMINATED',
     ru: 'ВЫ ВЫБЫЛИ ИЗ ИГРЫ',

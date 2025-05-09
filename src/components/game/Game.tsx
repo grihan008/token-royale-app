@@ -15,7 +15,7 @@ import classes from './Game.module.css';
 
 function Game() {
   const { t } = useTranslation();
-  const [timeOffset, setTimeOffset] = useState<number>(5_000); // Compensate for difference between local and contract time
+  const [timeOffset, setTimeOffset] = useState<number>(7_000);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [gameWinners, setGameWinners] = useState<Winners | null>(null);
   const [timeToElimination, setTimeToElimination] = useState<number | null>(
@@ -26,7 +26,7 @@ function Game() {
   const [tonConnectUI] = useTonConnectUI();
 
   const getTimeOffset = async () => {
-    fetch('https://timestamp-api-gamma.vercel.app/api/timestamp', {
+    fetch(import.meta.env.VITE_TIMESTAMP_API_URL, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ function Game() {
       .then((data) => {
         const serverTime = data.timestamp;
         const localTime = Date.now();
-        setTimeOffset(localTime - serverTime + 5_000);
+        setTimeOffset(localTime - serverTime + 7_000);
       })
       .catch((error) => {
         console.error('Error fetching time offset:', error);

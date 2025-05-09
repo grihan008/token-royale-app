@@ -121,10 +121,19 @@ function GamePart({
             )}
 
             {gameHasStarted && !gameState.isStillInGame && (
-              <div className={classes.checkInStatus}>
-                <h3>{t('game.eliminated')}</h3>
-                <p>{t('game.betterLuck')}</p>
-              </div>
+              <>
+                {lastCheckInTime ? (
+                  <div className={classes.checkInStatus}>
+                    <h3>{t('game.eliminated')}</h3>
+                    <p>{t('game.betterLuck')}</p>
+                  </div>
+                ) : (
+                  <div className={classes.checkInStatus}>
+                    <h3>{t('game.notCheckedIn')}</h3>
+                    <p>{t('game.tryNextGame')}</p>
+                  </div>
+                )}
+              </>
             )}
 
             {gameHasStarted && gameState.isStillInGame && (
