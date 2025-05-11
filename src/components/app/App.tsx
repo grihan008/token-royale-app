@@ -118,7 +118,7 @@ function LanguageSelector() {
 function AppContent() {
   return (
     <TonConnectUIProvider
-      manifestUrl="https://grihan008.github.io/token-royale-app/tonconnect-manifest.json"
+      manifestUrl="https://www.ton-royale.pro/tonconnect-manifest.json"
       uiPreferences={{ theme: THEME.LIGHT }}
     >
       <div className={classes.page}>

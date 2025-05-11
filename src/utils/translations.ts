@@ -12,7 +12,7 @@ export const translations: Translations = {
   // Game related
   'game.connectWallet': {
     en: 'Please connect your wallet',
-    ru: 'Пожалуйста, подключите кошелек',
+    ru: 'Пожалуйста, подключите ваш кошелек',
   },
   'game.loading': {
     en: 'Loading...',
