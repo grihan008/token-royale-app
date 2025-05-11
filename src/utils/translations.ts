@@ -12,7 +12,7 @@ export const translations: Translations = {
   // Game related
   'game.connectWallet': {
     en: 'Please connect your wallet',
-    ru: 'Пожалуйста, подключите кошелек',
+    ru: 'Пожалуйста, подключите ваш кошелек',
   },
   'game.loading': {
     en: 'Loading...',
@@ -41,6 +41,14 @@ export const translations: Translations = {
   'game.checkedIn': {
     en: 'YOU HAVE ALREADY CHECKED IN THIS ROUND',
     ru: 'ВЫ УЖЕ ЗАРЕГИСТРИРОВАЛИСЬ В ЭТОМ РАУНДЕ',
+  },
+  'game.notCheckedIn': {
+    en: 'YOU HAVE NOT CHECKED IN THIS GAME',
+    ru: 'ВЫ НЕ ЗАРЕГИСТРИРОВАЛИСЬ В ЭТОЙ ИГРЕ',
+  },
+  'game.tryNextGame': {
+    en: 'Try again in the next game',
+    ru: 'Попробуйте снова в следующей игре',
   },
   'game.eliminated': {
     en: 'YOU HAVE BEEN ELIMINATED',

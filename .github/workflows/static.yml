@@ -10,6 +10,8 @@ on:
   workflow_dispatch:
 env:
   VITE_CONTRACT_ADDRESS: ${{ vars.VITE_CONTRACT_ADDRESS }}
+  VITE_TIMESTAMP_API_URL: ${{ vars.VITE_TIMESTAMP_API_URL }}
+  VITE_TON_CLIENT_API_URL: ${{ vars.VITE_TON_CLIENT_API_URL }}
 
 # Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
 permissions:

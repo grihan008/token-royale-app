@@ -13,7 +13,7 @@ export const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS as string;
 
 export const getTokenRoyaleInstance = async () => {
   const client = new TonClient({
-    endpoint: 'https://testnet.toncenter.com/api/v2/jsonRPC',
+    endpoint: import.meta.env.VITE_TON_CLIENT_API_URL,
   });
   const address = Address.parse(CONTRACT_ADDRESS);
   const tokenRoyaleInstance = client.open(TokenRoyale.fromAddress(address));
