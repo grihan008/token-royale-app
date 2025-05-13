@@ -120,6 +120,9 @@ function AppContent() {
     <TonConnectUIProvider
       manifestUrl="https://www.ton-royale.pro/tonconnect-manifest.json"
       uiPreferences={{ theme: THEME.LIGHT }}
+      actionsConfiguration={{
+        twaReturnUrl: 'https://t.me/ton_royale_pro_bot',
+      }}
     >
       <div className={classes.page}>
         <nav className={classes.navbar}>

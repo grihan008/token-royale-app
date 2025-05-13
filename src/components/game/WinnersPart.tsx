@@ -45,7 +45,7 @@ function WinnersPart({ gameWinners, gameHasEnded }: WinnersPartProps) {
                 <div
                   className={`${classes.winnersTableCell} ${classes.addressCell}`}
                 >
-                  {formatAddress(address.toString())}
+                  {formatAddress(address.toString({ bounceable: false }))}
                 </div>
                 <div className={classes.winnersTableCell}>
                   {(
@@ -74,7 +74,7 @@ function WinnersPart({ gameWinners, gameHasEnded }: WinnersPartProps) {
               <div
                 className={`${classes.winnersTableCell} ${classes.addressCell}`}
               >
-                {formatAddress(address.toString())}
+                {formatAddress(address.toString({ bounceable: false }))}
               </div>
               <div className={classes.winnersTableCell}>
                 {gameWinners.allTimeWinners.get(address)?.count.toString()}
