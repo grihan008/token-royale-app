@@ -105,8 +105,8 @@ export const translations: Translations = {
     ru: 'Инфо',
   },
   'info.title': {
-    en: 'About Token Royale',
-    ru: 'О Token Royale',
+    en: 'About Ton Royale',
+    ru: 'О Ton Royale',
   },
   'info.description': {
     en: 'Game Description\n\nThis game is a blockchain-based variation of the classic battle royale. Participants register and confirm their participation in each round to compete for a share of the prize pool. All game logic is fixed in a smart contract and is fully executed on the blockchain, which guarantees fairness and transparency.\n\n---\n\nRegistration\n\nThe main screen displays a timer that shows either the time until the game starts or until the end of registration for the current round.\n\nTo participate, click the "JOIN" button. After that, you will receive participant status. To continue the game, you need to check in for each round. Complete all rounds and you\'ll become a winner, receiving a share of the total prize pool.\n\n---\n\nGame Structure\n\nThe game runs daily and consists of several rounds.\n\nEach subsequent round is shorter than the previous one.\n\nMissing even one round means elimination from the game.\n\n---\n\nParticipation Cost\n\nRegistration: price is shown under the timer + network fee (~0.01 TON)\n\nCheck-in for each round: ~0.01 TON\n\n---\n\nPrize Pool\n\nUp to 85% of all fees go to the prize pool. It is indicated under the timer. Winners share it in equal parts.\n\nUp to 15% goes to platform maintenance and development.\n\n---\n\nImportant to Know\n\nAll rules and mechanics are fixed in the smart contract and cannot be changed.\n\nCheck-in is sending a minimum amount of TON to the contract address. The funds (minus the network fee) are returned back to you.\n\nPlease note: transaction confirmation in the TON network takes an average of 10-20 seconds. Take this into account when calculating the time for check-in in each round.',
