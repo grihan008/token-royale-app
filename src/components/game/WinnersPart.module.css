@@ -61,7 +61,7 @@ h6 {
   }
 
   &:last-child {
-    min-width: 150px;
+    min-width: 135px;
   }
 }
 
