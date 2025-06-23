@@ -80,9 +80,29 @@ function GamePart({
     const hours = Math.floor(milliseconds / (1000 * 60 * 60));
     const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
-    return `${hours ? `${hours}h` : ''} ${minutes ? `${minutes}m` : ''} ${
-      seconds ? `${seconds}s` : ''
-    }`;
+    return `${hours ? `${hours}${t('time.hour')}` : ''} ${
+      minutes ? `${minutes}${t('time.minute')}` : ''
+    } ${seconds ? `${seconds}${t('time.second')}` : ''}`;
+  };
+
+  const formatTimeToElimination = (milliseconds: number): string => {
+    const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (milliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
+
+    if (days > 0)
+      return `${days.toString().padStart(2, '0')}${t('time.day')} ${hours
+        .toString()
+        .padStart(2, '0')}${t('time.hour')} ${minutes
+        .toString()
+        .padStart(2, '0')}${t('time.minute')}`;
+
+    return `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -97,7 +117,7 @@ function GamePart({
                 <h2>{t('game.startIn')}</h2>
               )}
               <h1 className={classes.countdownTime}>
-                {new Date(timeToElimination).toISOString().substr(11, 8)}
+                {formatTimeToElimination(timeToElimination)}
               </h1>
             </div>
 
