@@ -142,6 +142,23 @@ export const translations: Translations = {
     en: 'Wins',
     ru: 'Победы',
   },
+  // Time units
+  'time.day': {
+    en: 'd',
+    ru: 'д',
+  },
+  'time.hour': {
+    en: 'h',
+    ru: 'ч',
+  },
+  'time.minute': {
+    en: 'm',
+    ru: 'м',
+  },
+  'time.second': {
+    en: 's',
+    ru: 'с',
+  },
 };
 
 // Helper function to get translation
